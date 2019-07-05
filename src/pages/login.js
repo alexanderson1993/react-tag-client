@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "gatsby";
 
 import Layout from "../components/layout";
 import SEO from "../components/seo";
@@ -11,30 +10,22 @@ import {
   githubProvider,
   auth,
 } from "../helpers/firebase";
+import { navigate } from "@reach/router";
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
+  const { user } = useAuth();
+
   const signIn = provider =>
     auth
       .signInWithPopup(provider)
-      .then(function(result) {
-        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-        var token = result.credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;
-        console.log(user);
-        // ...
-      })
-      .catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        // ...
-        console.log(errorMessage);
-      });
+      .then(function() {})
+      .catch(function() {});
+
+  if (user && user.uid) {
+    navigate("/game");
+    return null;
+  }
   return (
     <Layout>
       <SEO title="Login" />

@@ -31,7 +31,7 @@ const Theme = ({ children }) => {
       <>
         <Layout>{children}</Layout>
         <IconButton
-          variant="outline"
+          variant="ghost"
           intent="primary"
           icon={darkMode ? <IconSun /> : <IconMoon></IconMoon>}
           label="Menu"
@@ -57,6 +57,8 @@ const Layout = ({ children }) => {
             background-color: ${theme.colors.background.default};
             color: ${theme.colors.text.default};
             font-family: ${theme.fonts.base};
+            font-size: ${theme.fontSizes[2]};
+            line-height: ${theme.lineHeights.body};
             a {
               color: ${theme.colors.text.selected};
             }
@@ -69,6 +71,7 @@ const Layout = ({ children }) => {
           min-height: 100vh;
           display: flex;
           flex-direction: column;
+          padding-top: 5rem;
         `}
       >
         <main
