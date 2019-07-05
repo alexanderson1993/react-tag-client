@@ -11,15 +11,29 @@ import {
   auth,
 } from "../helpers/firebase";
 import { navigate } from "@reach/router";
+import { useMutation } from "@apollo/react-hooks";
 import { useAuth } from "../context/AuthContext";
+
+import CREATE_USER from "../queries/createUser.graphql";
 
 const LoginPage = () => {
   const { user } = useAuth();
-
+  const [createUser] = useMutation(CREATE_USER);
   const signIn = provider =>
     auth
       .signInWithPopup(provider)
-      .then(function() {})
+      .then(function(res) {
+        // Create the user object
+        if (res.additionalUserInfo.isNewUser) {
+          createUser({
+            variables: {
+              displayName: res.user.providerData[0].displayName,
+              photoURL: res.user.providerData[0].photoURL,
+            },
+          });
+        }
+      })
+      // Ignore error if there is a user
       .catch(function() {});
 
   if (user && user.uid) {

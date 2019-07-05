@@ -5,22 +5,28 @@ import { setContext } from "apollo-link-context";
 import { ApolloLink, split } from "apollo-link";
 import { createUploadLink } from "apollo-upload-client";
 import { ApolloProvider } from "react-apollo";
-import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
-import { WebSocketLink } from 'apollo-link-ws';
+import { ApolloProvider as ApolloHooksProvider } from "@apollo/react-hooks";
+import { WebSocketLink } from "apollo-link-ws";
+import { getMainDefinition } from "apollo-utilities";
 
 import fetch from "isomorphic-fetch";
+import ws from "ws";
 
 import { auth } from "./firebase";
 import React from "react";
 
 const uri = "https://18yw3.sse.codesandbox.io/";
-const wsUri ="wss://18yw3.sse.codesandbox.io/graphql"
+const wsUri = "wss://18yw3.sse.codesandbox.io/graphql";
 
 const wsLink = new WebSocketLink({
   uri: wsUri,
   options: {
-    reconnect: true
-  }
+    reconnect: true,
+    connectionParams: async () => ({
+      authToken: await auth.currentUser.getIdToken(),
+    }),
+  },
+  webSocketImpl: typeof window === "undefined" ? ws : window.WebSocket,
 });
 
 const AuthLink = setContext(async (_, { headers }) => {
@@ -60,12 +66,12 @@ const link = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
     return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
     );
   },
   wsLink,
-  ApolloLink.from([AuthLink, ErrorLink, DataLink]),
+  ApolloLink.from([AuthLink, ErrorLink, DataLink])
 );
 
 export const client = new ApolloClient({

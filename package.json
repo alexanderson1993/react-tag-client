@@ -5,11 +5,13 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@apollo/react-hooks": "0.1.0-beta.10",
     "@emotion/core": "^10.0.14",
     "@emotion/css": "^10.0.14",
     "@emotion/styled": "^10.0.14",
     "@firebase/app": "^0.4.9",
     "@firebase/auth": "^0.11.3",
+    "@svgr/webpack": "^4.3.1",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.3",
     "apollo-link": "^1.2.12",
@@ -29,15 +31,17 @@
     "gatsby-plugin-svgr": "^2.0.2",
     "gatsby-source-filesystem": "^2.1.2",
     "gatsby-transformer-sharp": "^2.2.1",
+    "graphql-tag": "^2.10.1",
     "isomorphic-fetch": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-apollo": "^2.5.8",
-    "react-apollo-hooks": "^0.4.5",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
+    "react-qrcode-hook": "^1.1.0",
     "sancho": "^3.1.1",
-    "subscriptions-transport-ws": "^0.9.16"
+    "subscriptions-transport-ws": "^0.9.16",
+    "ws": "^7.0.1"
   },
   "devDependencies": {
     "prettier": "^1.18.2"

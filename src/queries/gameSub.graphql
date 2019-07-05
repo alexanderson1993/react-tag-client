@@ -1,0 +1,33 @@
+subscription GameList($gameId: ID!) {
+  gameUpdate(gameId: $gameId) {
+    id
+    name
+    description
+    code
+    owner {
+      id
+      displayName
+    }
+    started
+    completed
+    winner {
+      id
+      displayName
+      photoURL
+    }
+    me {
+      id
+      dead
+      target {
+        id
+        user {
+          id
+          displayName
+          photoURL
+        }
+      }
+    }
+    playerCount
+    aliveCount
+  }
+}

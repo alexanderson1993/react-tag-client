@@ -1,0 +1,9 @@
+mutation Surrender($gameId: ID!) {
+  surrender(gameId: $gameId) {
+    id
+    me {
+      id
+      dead
+    }
+  }
+}

@@ -7,6 +7,7 @@ import { useTheme } from "sancho";
 
 const Game = React.lazy(() => import("./game"));
 const NewGame = React.lazy(() => import("./newGame"));
+const JoinGame = React.lazy(() => import("./joinGame"));
 
 const Main = () => {
   const theme = useTheme();
@@ -20,22 +21,25 @@ const Main = () => {
     <>
       {detailView ? (
         <Router>
+          <JoinGame path="/join" back></JoinGame>
+          <NewGame path="/new" back></NewGame>
           <Game path="/:gameId" back></Game>
-          <NewGame path="new" back></NewGame>
           <GameList path="/"></GameList>
         </Router>
       ) : (
         <div
           css={css`
             display: grid;
-            grid-template-columns: 2fr 3fr;
+            grid-template-columns: 40% 1fr;
             gap: 2rem;
           `}
         >
           <GameList></GameList>
           <Router>
+            <JoinGame path="/join"></JoinGame>
+
+            <NewGame path="/new"></NewGame>
             <Game path="/:gameId"></Game>
-            <NewGame path="new"></NewGame>
           </Router>
         </div>
       )}

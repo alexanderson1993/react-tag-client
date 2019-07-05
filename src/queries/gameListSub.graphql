@@ -1,0 +1,8 @@
+subscription GameList {
+  gameUpdate {
+    id
+    name
+    completed
+    description
+  }
+}

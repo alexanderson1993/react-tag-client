@@ -1,0 +1,7 @@
+mutation CreateUser($displayName: String!, $photoURL: String) {
+  createUser(displayName: $displayName, photoURL: $photoURL) {
+    id
+    displayName
+    photoURL
+  }
+}
