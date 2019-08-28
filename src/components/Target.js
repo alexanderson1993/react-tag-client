@@ -15,6 +15,7 @@ const Target = ({ gameId, user_id, name, photoURL }) => {
   function surrender() {
     // noop
   }
+  const loading = false
 
   if (loading) return <Loading label="Surrendering..." />
   return (
