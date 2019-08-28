@@ -18,7 +18,15 @@ import { useSubscribeToMore } from "../hooks/useSubscribeToMore"
 import { useAuth } from "../context/AuthContext"
 
 const GameList = () => {
-  const { data, loading, error, subscribeToMore } = useQuery(GAMES)
+  /**
+   *
+   * TODO: Add useQuery
+   *
+   */
+
+  const error = null
+  const data = { games: [] }
+  const loading = false
 
   /**
    *
