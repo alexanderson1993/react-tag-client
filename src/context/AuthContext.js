@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import propTypes from "prop-types"
 import useLocalStorage from "../hooks/useLocalStorage"
 import { navigate } from "@reach/router"
-const AuthContext = React.createContext({
+export const AuthContext = React.createContext({
   user: null,
   login: () => {},
   logout: () => {},

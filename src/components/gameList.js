@@ -22,7 +22,7 @@ const GameList = () => {
   const { user } = useAuth()
   const config = React.useMemo(
     () => ({
-      updateQuery: (previousResult, { subscriptionData }) => {
+      updateQuery: (previousResult = { games: [] }, { subscriptionData }) => {
         return {
           ...previousResult,
           games: previousResult.games.map(g => {

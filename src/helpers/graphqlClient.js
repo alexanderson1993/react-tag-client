@@ -1,10 +1,9 @@
 import { ApolloClient } from "apollo-client"
 import { InMemoryCache } from "apollo-cache-inmemory"
-import { onError } from "apollo-link-error"
 import { setContext } from "apollo-link-context"
 import { ApolloLink, split } from "apollo-link"
-import { createUploadLink } from "apollo-upload-client"
 import { ApolloProvider } from "react-apollo"
+import { HttpLink } from "apollo-link-http"
 import { ApolloProvider as ApolloHooksProvider } from "@apollo/react-hooks"
 import { WebSocketLink } from "apollo-link-ws"
 import { getMainDefinition } from "apollo-utilities"
@@ -14,6 +13,8 @@ import ws from "ws"
 
 import React from "react"
 
+const authToken =
+  typeof window !== "undefined" ? window.localStorage.getItem("auth-token") : ""
 const uri = "http://localhost:4000/"
 const wsUri = "ws://localhost:4000/graphql"
 
@@ -22,46 +23,23 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: async () => ({
-      authToken:
-        typeof window !== "undefined"
-          ? window.localStorage.getItem("auth-token")
-          : "",
+      authToken,
     }),
   },
   webSocketImpl: typeof window === "undefined" ? ws : window.WebSocket,
 })
 
 const AuthLink = setContext(async (_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  try {
-    const token =
-      typeof window !== "undefined"
-        ? window.localStorage.getItem("auth-token")
-        : ""
-    // return the headers to the context so httpLink can read them
-    return {
-      headers: {
-        ...headers,
-        authorization: token ? `Bearer ${token.replace(/"/gi, "")}` : "",
-      },
-    }
-  } catch (err) {
-    return headers
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: authToken ? `Bearer ${authToken.replace(/"/gi, "")}` : "",
+    },
   }
 })
 
-// TODO: Add sentry event tracking to this when Sentry eventually gets added.
-const ErrorLink = onError(({ graphQLErrors, networkError }) => {
-  // if (graphQLErrors)
-  //   graphQLErrors.map(({ message, locations, path }) =>
-  //     // console.error(
-  //     //   `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-  //     // )
-  //   );
-  // if (networkError) console.error(`[Network error]: ${networkError}`);
-})
-
-const DataLink = createUploadLink({
+const DataLink = new HttpLink({
   uri,
   credentials: "same-origin",
 })
@@ -76,7 +54,7 @@ const link = split(
     )
   },
   wsLink,
-  ApolloLink.from([AuthLink, ErrorLink, DataLink])
+  ApolloLink.from([AuthLink, DataLink])
 )
 
 export const client = new ApolloClient({

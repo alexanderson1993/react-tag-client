@@ -5,7 +5,8 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
-    "@apollo/react-hooks": "0.1.0-beta.10",
+    "@apollo/react-hooks": "^3.0.1",
+    "@apollo/react-testing": "^3.0.1",
     "@emotion/core": "^10.0.14",
     "@emotion/css": "^10.0.14",
     "@emotion/styled": "^10.0.14",
@@ -15,8 +16,8 @@
     "apollo-link": "^1.2.12",
     "apollo-link-context": "^1.0.18",
     "apollo-link-error": "^1.1.11",
+    "apollo-link-http": "^1.5.15",
     "apollo-link-ws": "^1.0.18",
-    "apollo-upload-client": "^10.0.1",
     "gatsby": "^2.13.3",
     "gatsby-image": "^2.2.4",
     "gatsby-plugin-create-client-paths": "^2.1.1",
@@ -33,7 +34,6 @@
     "isomorphic-fetch": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-apollo": "^2.5.8",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-qrcode-hook": "^1.1.0",
@@ -42,6 +42,12 @@
     "ws": "^7.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addons": "^5.1.11",
+    "@storybook/react": "^5.1.11",
+    "babel-loader": "^8.0.6",
     "prettier": "^1.18.2"
   },
   "keywords": [
@@ -54,7 +60,9 @@
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
