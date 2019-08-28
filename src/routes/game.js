@@ -10,23 +10,22 @@ import NOTIFICATION from "../queries/notification.graphql"
 import { useSubscribeToMore } from "../hooks/useSubscribeToMore"
 import Target from "../components/Target"
 import GameInfo from "../components/GameInfo"
-import { useAuth } from "../context/AuthContext"
 
 function useNotification() {
   const toast = useToast()
-  const { user } = useAuth()
-  const { data } = useSubscription(NOTIFICATION, {
-    variables: { playerId: user.user_id },
-  })
+
+  /**
+   *
+   * TODO: Add useSubscription
+   *
+   */
 
   React.useEffect(() => {
-    if (data) {
-      toast({
-        title: data.notification,
-        position: "top-right",
-      })
-    }
-  }, [data])
+    toast({
+      title: "I'm a toast!",
+      position: "top-right",
+    })
+  }, [])
 }
 
 const Game = ({ back, gameId }) => {
@@ -48,7 +47,7 @@ const Game = ({ back, gameId }) => {
   )
   useSubscribeToMore(subscribeToMore, GAME_SUB, config)
 
-  useNotification()
+  // useNotification()
   if (!gameId) return null
   if (loading) return <Loading label="Loading game information..."></Loading>
   if (error) throw new Error(error)
