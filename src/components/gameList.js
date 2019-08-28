@@ -19,24 +19,13 @@ import { useAuth } from "../context/AuthContext"
 
 const GameList = () => {
   const { data, loading, error, subscribeToMore } = useQuery(GAMES)
-  const { user } = useAuth()
-  const config = React.useMemo(
-    () => ({
-      updateQuery: (previousResult = { games: [] }, { subscriptionData }) => {
-        return {
-          ...previousResult,
-          games: previousResult.games.map(g => {
-            if (g.game_id === subscriptionData.data.gameUpdate.game_id) {
-              return subscriptionData.data.gameUpdate
-            }
-            return g
-          }),
-        }
-      },
-    }),
-    [user.user_id]
-  )
-  useSubscribeToMore(subscribeToMore, GAMES_SUB, config)
+
+  /**
+   *
+   * TODO: Add useSubscribeToMore
+   *
+   **/
+
   if (error) throw new Error(error)
   const { games = [] } = data
   const pendingGames = games.filter(g => !g.started)
