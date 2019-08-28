@@ -1,9 +1,3 @@
 mutation Surrender($gameId: ID!) {
-  surrender(gameId: $gameId) {
-    game_id
-    me {
-      id
-      dead
-    }
-  }
+  __mutationGoesHere
 }

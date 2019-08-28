@@ -6,9 +6,16 @@ import css from "@emotion/css"
 import Loading from "../components/loading"
 
 const Target = ({ gameId, user_id, name, photoURL }) => {
-  const [surrender, { loading }] = useMutation(SURRENDER, {
-    variables: { gameId },
-  })
+  /**
+   *
+   * TODO: Add useMutation
+   *
+   */
+
+  function surrender() {
+    // noop
+  }
+
   if (loading) return <Loading label="Surrendering..." />
   return (
     <>
