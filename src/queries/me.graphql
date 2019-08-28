@@ -1,0 +1,7 @@
+query Me($user_id: ID!) {
+  me(user_id: $user_id) {
+    name
+    user_id
+    photoURL
+  }
+}

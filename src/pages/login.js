@@ -1,44 +1,19 @@
-import React from "react";
+import React from "react"
 
-import Layout from "../components/layout";
-import SEO from "../components/seo";
-import css from "@emotion/css";
-import { Button } from "sancho";
-import {
-  googleProvider,
-  twitterProvider,
-  githubProvider,
-  auth,
-} from "../helpers/firebase";
-import { navigate } from "@reach/router";
-import { useMutation } from "@apollo/react-hooks";
-import { useAuth } from "../context/AuthContext";
-
-import CREATE_USER from "../queries/createUser.graphql";
+import Layout from "../components/layout"
+import SEO from "../components/seo"
+import css from "@emotion/css"
+import { Button } from "sancho"
+import { navigate } from "@reach/router"
+import { useAuth } from "../context/AuthContext"
 
 const LoginPage = () => {
-  const { user } = useAuth();
-  const [createUser] = useMutation(CREATE_USER);
-  const signIn = provider =>
-    auth
-      .signInWithPopup(provider)
-      .then(function(res) {
-        // Create the user object
-        if (res.additionalUserInfo.isNewUser) {
-          createUser({
-            variables: {
-              displayName: res.user.providerData[0].displayName,
-              photoURL: res.user.providerData[0].photoURL,
-            },
-          });
-        }
-      })
-      // Ignore error if there is a user
-      .catch(function() {});
+  const [userId, setUserId] = React.useState()
+  const { user, login } = useAuth()
 
-  if (user && user.uid) {
-    navigate("/game");
-    return null;
+  if (user && user.user_id) {
+    navigate("/game")
+    return null
   }
   return (
     <Layout>
@@ -61,18 +36,13 @@ const LoginPage = () => {
         >
           Login
         </h1>
-        <Button intent="danger" onPress={() => signIn(googleProvider)}>
-          Sign In with Google
-        </Button>
-        <Button intent="primary" onPress={() => signIn(twitterProvider)}>
-          Sign In with Twitter
-        </Button>
-        <Button onPress={() => signIn(githubProvider)}>
-          Sign In with Github
+        <input value={userId} onChange={e => setUserId(e.target.value)} />
+        <Button intent="danger" onPress={() => login(userId)}>
+          Sign In
         </Button>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

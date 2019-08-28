@@ -1,5 +1,5 @@
-import React from "react";
-import "./layout.css";
+import React from "react"
+import "./layout.css"
 import {
   Avatar,
   Text,
@@ -8,24 +8,26 @@ import {
   Popover,
   MenuList,
   MenuItem,
-} from "sancho";
-import css from "@emotion/css";
-import { useAuth } from "../context/AuthContext";
-import Loading from "./loading";
-import { Link } from "gatsby";
+} from "sancho"
+import css from "@emotion/css"
+import { useAuth } from "../context/AuthContext"
+import { Link } from "gatsby"
+import { useQuery } from "@apollo/react-hooks"
+import ME_QUERY from "../queries/me.graphql"
 
 const ProfileButton = () => {
-  const { user, loading, logout } = useAuth();
+  const { user, logout } = useAuth()
+  const { data: { me = {} } = {} } = useQuery(ME_QUERY, {
+    variables: { user_id: user.user_id },
+  }) // TODO: Use this as one of the queries
 
-  if (loading) return <Loading size="sm" />;
   if (!user) {
     return (
       <Button component={Link} variant="ghost" intent="primary" to="/login">
         Login
       </Button>
-    );
+    )
   }
-
   return (
     <Popover
       content={
@@ -50,17 +52,13 @@ const ProfileButton = () => {
             padding: 0.5rem;
           `}
         >
-          <Avatar
-            size="sm"
-            name={user.providerData[0].displayName}
-            src={user.providerData[0].photoURL}
-          />
+          <Avatar size="sm" name={me ? me.name : ""} src={me && me.photoURL} />
         </div>{" "}
-        <Text>{user.providerData[0].displayName}</Text>
+        <Text>{me && me.name}</Text>
       </Button>
     </Popover>
-  );
-};
+  )
+}
 const Profile = () => {
   return (
     <div
@@ -72,7 +70,7 @@ const Profile = () => {
     >
       <ProfileButton />
     </div>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

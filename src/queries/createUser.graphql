@@ -1,7 +1,7 @@
-mutation CreateUser($displayName: String!, $photoURL: String) {
-  createUser(displayName: $displayName, photoURL: $photoURL) {
-    id
-    displayName
+mutation CreateUser($name: String!, $photoURL: String) {
+  createUser(name: $name, photoURL: $photoURL) {
+    user_id
+    name
     photoURL
   }
 }

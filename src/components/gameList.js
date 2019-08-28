@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   Layer,
   List,
@@ -6,38 +6,42 @@ import {
   Button,
   ListSection,
   IconChevronRight,
-} from "sancho";
-import { Link } from "gatsby";
-import css from "@emotion/css";
-import { useQuery } from "@apollo/react-hooks";
+} from "sancho"
+import { Link } from "gatsby"
+import css from "@emotion/css"
+import { useQuery } from "@apollo/react-hooks"
 
-import GAMES from "../queries/games.graphql";
-import GAMES_SUB from "../queries/gameListSub.graphql";
-import Loading from "./loading";
-import { useSubscribeToMore } from "../hooks/useSubscribeToMore";
-import { useAuth } from "../context/AuthContext";
+import GAMES from "../queries/games.graphql"
+import GAMES_SUB from "../queries/gameListSub.graphql"
+import Loading from "./loading"
+import { useSubscribeToMore } from "../hooks/useSubscribeToMore"
+import { useAuth } from "../context/AuthContext"
 
 const GameList = () => {
-  const { data, loading, error, subscribeToMore } = useQuery(GAMES);
-  const { user } = useAuth();
+  const { data, loading, error, subscribeToMore } = useQuery(GAMES)
+  const { user } = useAuth()
   const config = React.useMemo(
     () => ({
       updateQuery: (previousResult, { subscriptionData }) => {
-        return previousResult.games.map(g => {
-          if (g.id === subscriptionData.data.gameUpdate.id) {
-            return subscriptionData.data.gameUpdate;
-          }
-          return g;
-        });
+        return {
+          ...previousResult,
+          games: previousResult.games.map(g => {
+            if (g.game_id === subscriptionData.data.gameUpdate.game_id) {
+              return subscriptionData.data.gameUpdate
+            }
+            return g
+          }),
+        }
       },
     }),
-    [user.uid]
-  );
-  useSubscribeToMore(subscribeToMore, GAMES_SUB, config);
-  if (error) throw new Error(error);
-  const { games = [] } = data;
-  const activeGames = games.filter(g => !g.completed);
-  const completedGames = games.filter(g => g.completed);
+    [user.user_id]
+  )
+  useSubscribeToMore(subscribeToMore, GAMES_SUB, config)
+  if (error) throw new Error(error)
+  const { games = [] } = data
+  const pendingGames = games.filter(g => !g.started)
+  const activeGames = games.filter(g => !g.completed && g.started)
+  const completedGames = games.filter(g => g.completed)
   return (
     <div>
       <h2>Current Games</h2>
@@ -61,8 +65,8 @@ const GameList = () => {
                 activeGames.map(g => (
                   <ListItem
                     component={Link}
-                    to={`/game/${g.id}`}
-                    key={g.id}
+                    to={`/game/${g.game_id}`}
+                    key={g.game_id}
                     primary={g.name}
                     secondary={g.description}
                     contentAfter={<IconChevronRight />}
@@ -71,6 +75,27 @@ const GameList = () => {
                 ))
               )}
             </ListSection>
+            <ListSection title="Pending Games">
+              {pendingGames.length === 0 ? (
+                <ListItem
+                  interactive={false}
+                  primary="No Pending Games"
+                ></ListItem>
+              ) : (
+                pendingGames.map(g => (
+                  <ListItem
+                    component={Link}
+                    to={`/game/${g.game_id}`}
+                    key={g.game_id}
+                    primary={g.name}
+                    secondary={g.description}
+                    contentAfter={<IconChevronRight />}
+                    wrap={false}
+                  ></ListItem>
+                ))
+              )}
+            </ListSection>
+
             <ListSection title="Completed Games">
               {completedGames.length === 0 ? (
                 <ListItem
@@ -81,8 +106,8 @@ const GameList = () => {
                 completedGames.map(g => (
                   <ListItem
                     component={Link}
-                    to={`/game/${g.id}`}
-                    key={g.id}
+                    to={`/game/${g.game_id}`}
+                    key={g.game_id}
                     primary={g.name}
                     secondary={g.description}
                     contentAfter={<IconChevronRight />}
@@ -113,6 +138,6 @@ const GameList = () => {
         Join Game
       </Button>
     </div>
-  );
-};
-export default GameList;
+  )
+}
+export default GameList

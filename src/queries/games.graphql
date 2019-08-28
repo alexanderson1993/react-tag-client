@@ -1,8 +1,9 @@
 query Games {
   games {
-    id
+    game_id
     name
     completed
     description
+    started
   }
 }

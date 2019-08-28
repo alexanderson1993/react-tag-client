@@ -1,19 +1,19 @@
-import React from "react";
-import { Link } from "gatsby";
+import React from "react"
+import { Link } from "gatsby"
 
-import Layout from "../components/layout";
-import SEO from "../components/seo";
-import css from "@emotion/css";
-import { Button, useTheme } from "sancho";
-import { navigate } from "@reach/router";
-import { useAuth } from "../context/AuthContext";
+import Layout from "../components/layout"
+import SEO from "../components/seo"
+import css from "@emotion/css"
+import { Button, useTheme } from "sancho"
+import { navigate } from "@reach/router"
+import { useAuth } from "../context/AuthContext"
 
 const IndexPage = () => {
-  const { user } = useAuth();
-  const theme = useTheme();
-  if (user && user.uid) {
-    navigate("/game");
-    return null;
+  const { user } = useAuth()
+  const theme = useTheme()
+  if (user && user.user_id) {
+    navigate("/game")
+    return null
   }
   return (
     <Layout>
@@ -83,7 +83,7 @@ const IndexPage = () => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default IndexPage;
+export default IndexPage

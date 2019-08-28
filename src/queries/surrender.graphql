@@ -1,6 +1,6 @@
 mutation Surrender($gameId: ID!) {
   surrender(gameId: $gameId) {
-    id
+    game_id
     me {
       id
       dead

@@ -1,36 +1,36 @@
-import React from "react";
-import css from "@emotion/css";
-import { InputGroup, Input, TextArea, Button } from "sancho";
-import Back from "../components/back";
-import { useMutation } from "@apollo/react-hooks";
-import CREATE_GAME from "../queries/createGame.graphql";
-import { navigate } from "gatsby";
-import Loading from "../components/loading";
+import React from "react"
+import css from "@emotion/css"
+import { InputGroup, Input, TextArea, Button } from "sancho"
+import Back from "../components/back"
+import { useMutation } from "@apollo/react-hooks"
+import CREATE_GAME from "../queries/createGame.graphql"
+import { navigate } from "gatsby"
+import Loading from "../components/loading"
 
-import GAMES from "../queries/games.graphql";
+import GAMES from "../queries/games.graphql"
 
 const NewGame = ({ back }) => {
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [name, setName] = React.useState("")
+  const [description, setDescription] = React.useState("")
   const [createGameAction, { loading }] = useMutation(CREATE_GAME, {
     update: (cache, { data: { createGame } }) => {
-      const { games } = cache.readQuery({ query: GAMES });
+      const { games } = cache.readQuery({ query: GAMES })
       cache.writeQuery({
         query: GAMES,
         data: { games: games.concat([createGame]) },
-      });
+      })
     },
-  });
-  const formRef = React.useRef();
+  })
+  const formRef = React.useRef()
   const submit = async e => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
     const { data } = await createGameAction({
       variables: { name, description },
-    });
-    navigate(`/game/${data.createGame.id}`);
-  };
-  if (loading) return <Loading label="Creating game..." />;
+    })
+    navigate(`/game/${data.createGame.game_id}`)
+  }
+  if (loading) return <Loading label="Creating game..." />
   return (
     <>
       {back && <Back to="/game" />}
@@ -66,7 +66,7 @@ const NewGame = ({ back }) => {
         </form>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default NewGame;
+export default NewGame

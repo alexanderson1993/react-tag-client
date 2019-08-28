@@ -1,8 +1,9 @@
 subscription GameList {
   gameUpdate {
-    id
+    game_id
     name
     completed
     description
+    started
   }
 }

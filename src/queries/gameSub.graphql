@@ -1,18 +1,18 @@
 subscription GameList($gameId: ID!) {
   gameUpdate(gameId: $gameId) {
-    id
+    game_id
     name
     description
     code
     owner {
-      id
-      displayName
+      user_id
+      name
     }
     started
     completed
     winner {
-      id
-      displayName
+      user_id
+      name
       photoURL
     }
     me {
@@ -21,8 +21,8 @@ subscription GameList($gameId: ID!) {
       target {
         id
         user {
-          id
-          displayName
+          user_id
+          name
           photoURL
         }
       }

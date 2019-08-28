@@ -1,18 +1,18 @@
 query Game($gameId: ID, $code: String) {
   game(gameId: $gameId, code: $code) {
-    id
+    game_id
     name
     description
     code
     owner {
-      id
-      displayName
+      user_id
+      name
     }
     started
     completed
     winner {
-      id
-      displayName
+      user_id
+      name
       photoURL
     }
     me {
@@ -21,8 +21,8 @@ query Game($gameId: ID, $code: String) {
       target {
         id
         user {
-          id
-          displayName
+          user_id
+          name
           photoURL
         }
       }

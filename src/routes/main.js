@@ -1,30 +1,35 @@
-import React from "react";
-import { Router } from "@reach/router";
-import css from "@emotion/css";
-import GameList from "../components/gameList";
-import useMedia from "../hooks/useMedia";
-import { useTheme } from "sancho";
+import React from "react"
+import { Router } from "@reach/router"
+import css from "@emotion/css"
+import GameList from "../components/gameList"
+import useMedia from "../hooks/useMedia"
+import { useTheme, ErrorBoundary } from "sancho"
 
-const Game = React.lazy(() => import("./game"));
-const NewGame = React.lazy(() => import("./newGame"));
-const JoinGame = React.lazy(() => import("./joinGame"));
+const Game = React.lazy(() => import("./game"))
+const NewGame = React.lazy(() => import("./newGame"))
+const JoinGame = React.lazy(() => import("./joinGame"))
 
+const GameComp = props => (
+  <ErrorBoundary>
+    <Game {...props}></Game>
+  </ErrorBoundary>
+)
 const Main = () => {
-  const theme = useTheme();
+  const theme = useTheme()
   const detailView = useMedia(
     [`(min-width: ${theme.breakpoints.sm})`],
     [false],
     true
-  );
+  )
 
   return (
     <>
       {detailView ? (
         <Router>
-          <JoinGame path="/join" back></JoinGame>
-          <NewGame path="/new" back></NewGame>
-          <Game path="/:gameId" back></Game>
-          <GameList path="/"></GameList>
+          <JoinGame path="/game/join" back></JoinGame>
+          <NewGame path="/game/new" back></NewGame>
+          <GameComp path="/game/:gameId" back></GameComp>
+          <GameList path="/game"></GameList>
         </Router>
       ) : (
         <div
@@ -36,14 +41,14 @@ const Main = () => {
         >
           <GameList></GameList>
           <Router>
-            <JoinGame path="/join"></JoinGame>
+            <JoinGame path="/game/join"></JoinGame>
 
-            <NewGame path="/new"></NewGame>
-            <Game path="/:gameId"></Game>
+            <NewGame path="/game/new"></NewGame>
+            <GameComp path="/game/:gameId" />
           </Router>
         </div>
       )}
     </>
-  );
-};
-export default Main;
+  )
+}
+export default Main

@@ -1,18 +1,18 @@
 mutation JoinGame($gameId: ID!) {
   startGame(gameId: $gameId) {
-    id
+    game_id
     name
     description
     code
     owner {
-      id
-      displayName
+      user_id
+      name
     }
     started
     completed
     winner {
-      id
-      displayName
+      user_id
+      name
       photoURL
     }
     me {
@@ -21,8 +21,8 @@ mutation JoinGame($gameId: ID!) {
       target {
         id
         user {
-          id
-          displayName
+          user_id
+          name
           photoURL
         }
       }
