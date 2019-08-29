@@ -2,7 +2,6 @@ import { ApolloClient } from "apollo-client"
 import { InMemoryCache } from "apollo-cache-inmemory"
 import { setContext } from "apollo-link-context"
 import { ApolloLink, split } from "apollo-link"
-import { ApolloProvider } from "react-apollo"
 import { HttpLink } from "apollo-link-http"
 import { ApolloProvider as ApolloHooksProvider } from "@apollo/react-hooks"
 import { WebSocketLink } from "apollo-link-ws"
@@ -65,8 +64,6 @@ export const client = new ApolloClient({
 
 export default ({ children }) => {
   return (
-    <ApolloProvider client={client}>
       <ApolloHooksProvider client={client}>{children}</ApolloHooksProvider>
-    </ApolloProvider>
   )
 }

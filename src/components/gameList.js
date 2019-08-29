@@ -28,12 +28,6 @@ const GameList = () => {
   const data = { games: [] }
   const loading = false
 
-  /**
-   *
-   * TODO: Add useSubscribeToMore
-   *
-   **/
-
   if (error) throw new Error(error)
   const { games = [] } = data
   const pendingGames = games.filter(g => !g.started)

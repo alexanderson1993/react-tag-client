@@ -1,9 +1,3 @@
 query Games {
-  games {
-    game_id
-    name
-    completed
-    description
-    started
-  }
+  __GamesQueryHere
 }
