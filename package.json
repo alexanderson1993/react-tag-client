@@ -41,7 +41,7 @@
     "react-qrcode-hook": "^1.1.0",
     "sancho": "^3.1.1",
     "subscriptions-transport-ws": "^0.9.16",
-    "ws": "^7.0.1"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
